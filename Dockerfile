@@ -34,8 +34,9 @@ MAINTAINER Saurabh Goyal (https://hub.docker.com/repository/docker/saurabh8585/)
 
 RUN apt-get update -y && \
     apt-get install -y bash-completion command-not-found mtr-tiny dnsutils net-tools && \
-    apt-get install -y nmap traceroute netcat iproute2 tcpdump iputils-ping isc-dhcp-client && \
+    apt-get install -y nmap traceroute netcat iproute2 tcpdump iputils-ping isc-dhcp-client hping3 fping && \
     apt-get install -y openssh-server openssh-client tmux screen vim nano && \
+    apt-get install -y apache2 apache2-utils curl && \
     apt-get clean -qy
 
 # More readable bash prompt, with timestamp and colours
@@ -47,10 +48,12 @@ RUN echo 'PS1="\[\033[35m\]\t \[\033[32m\]\h\[\033[m\]:\[\033[33;1m\]\w\[\033[m\
     echo "PermitRootLogin yes" >> /etc/ssh/sshd_config && \
     echo 'root:ca$hc0w' | chpasswd
 
-# Start SSH
+# Expose SSH port
 EXPOSE 22
-RUN echo "/usr/sbin/sshd && service ssh restart && bash" > /root/entrypoint.sh
+
+# Creating Entrypoint file
+RUN echo "/usr/sbin/sshd && service apache2 restart && service ssh restart && bash" > /root/entrypoint.sh
 RUN chmod +x /root/entrypoint.sh
 
-# START
+# Entrypoint
 CMD /root/entrypoint.sh
