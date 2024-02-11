@@ -1,4 +1,4 @@
-FROM ubuntu:bionic
+FROM ubuntu:22.04
 
 MAINTAINER Saurabh Goyal (https://hub.docker.com/repository/docker/saurabh8585/)
 
@@ -31,12 +31,18 @@ MAINTAINER Saurabh Goyal (https://hub.docker.com/repository/docker/saurabh8585/)
 # tmux			- run multiple things in one terminal session, with tabs and split windows
 # screen		- similar to tmux, for running things in the background
 # vim/nano		- for times when you need a text editor. remember! don't expect files on a container to be persisted. use a volume.
+##########
 
+# Env variable for non user interaction during apt-get installation
+ARG DEBIAN_FRONTEND=noninteractive
+
+# Install tools
 RUN apt-get update -y && \
     apt-get install -y bash-completion command-not-found mtr-tiny dnsutils net-tools && \
-    apt-get install -y nmap traceroute netcat iproute2 tcpdump iputils-ping isc-dhcp-client hping3 fping && \
+    apt-get install -y nmap traceroute netcat iproute2 tcpdump iputils-ping isc-dhcp-client && \
     apt-get install -y openssh-server openssh-client tmux screen vim nano && \
-    apt-get install -y apache2 apache2-utils curl && \
+    apt-get install -y apache2 apache2-utils curl wget hping3 iperf fping && \
+    apt-get install -y kmod && \
     apt-get clean -qy
 
 # More readable bash prompt, with timestamp and colours
