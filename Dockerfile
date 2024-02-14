@@ -33,10 +33,8 @@ MAINTAINER Saurabh Goyal (https://hub.docker.com/repository/docker/saurabh8585/)
 # vim/nano		- for times when you need a text editor. remember! don't expect files on a container to be persisted. use a volume.
 ##########
 
-# Env variable for non user interaction during apt-get installation
-ARG DEBIAN_FRONTEND=noninteractive
-
 # Install tools
+ARG DEBIAN_FRONTEND=noninteractive
 RUN apt-get update -y && \
     apt-get install -y bash-completion command-not-found mtr-tiny dnsutils net-tools && \
     apt-get install -y nmap traceroute netcat iproute2 tcpdump iputils-ping isc-dhcp-client && \
